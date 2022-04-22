@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,6 +12,7 @@
  */
 public class edit_equip extends javax.swing.JFrame {
 
+    public static int equip_id = 0;
     /**
      * Creates new form edit_equip
      */
@@ -128,10 +132,32 @@ public class edit_equip extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try {
+            
+            String eq_name = jTextField1.getText(); // get the text inputted by the user from the studIdBox
+            String eq_brand = jTextField2.getText(); // get the text inputted by the user from the studNameBox
+            String quantityStr = jTextField3.getText();
+            int quantity = Integer.parseInt(quantityStr); // convert the string into integer
+            String priceStr = jTextField4.getText(); // get the text inputted by the user from the studIdBox
+            double price = Double.parseDouble(priceStr); // convert the string into integer
+            
+           
+            
+            DataHandler.editEquipment(eq_name,eq_brand, price, quantity); // pass the variables studID, sutdName to the function searchUser to find if the login details is in the database
+            
+            JOptionPane.showMessageDialog(null, "Equipment Edited Successfully");
+            this.setVisible(false); // display the quiz window
+            
+        } catch (Exception ex) { // if the student ID contains string, display the error
+         JOptionPane.showMessageDialog(null, "Equipment Has Not Been Added");
+          }
+        
+                               
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false); // display the quiz window
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -176,9 +202,9 @@ public class edit_equip extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    public javax.swing.JTextField jTextField1;
+    public javax.swing.JTextField jTextField2;
+    public javax.swing.JTextField jTextField3;
+    public javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

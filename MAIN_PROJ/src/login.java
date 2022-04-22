@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,6 +15,9 @@ public class login extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
+    public static int admin_id = 0;
+    public static String admin_user = "";
+    public static String admin_pass = "";
     public login() {
         initComponents();
     }
@@ -85,9 +91,32 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         main_menu mmenu = new main_menu();
-         mmenu.setVisible(true); // display the quiz window
-         dispose(); // close the login window
+        
+         try {
+            
+            admin_user = jTextField1.getText(); // get the text inputted by the user from the studIdBox
+            admin_pass = jTextField2.getText(); // get the text inputted by the user from the studNameBox
+            DataHandler.searchUser(admin_user,admin_pass); // pass the variables studID, sutdName to the function searchUser to find if the login details is in the database
+            
+            if(DataHandler.log_in == 1) { // check if the login variable is equal to 1
+                JOptionPane.showMessageDialog(null, "Success");
+          
+                DataHandler.getAdminID(admin_user);
+                main_menu mmenu = new main_menu();
+                mmenu.setVisible(true); // display the quiz window
+                dispose(); // close the login window
+                
+            } else { // if the login variable is not equal to 1, then the user credentials are wrong
+                JOptionPane.showMessageDialog(null, "Invalid User Credentials");
+    
+            }
+        } catch (Exception ex) { // if the student ID contains string, display the error
+         JOptionPane.showMessageDialog(null, "Unexpected Error Has Occured");
+           }
+        
+        
+    
+         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
