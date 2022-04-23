@@ -30,12 +30,10 @@ public class DataHandler {
     public static int log_in = 0;
    
     public static String ques_id = "";
-
-    
-    public static Vector<String> getTables() {
-        Vector<String> l = new Vector<>();
+public static Vector<Integer> getCustomer() {
+        Vector<Integer> l = new Vector<>();
         
-        String sqlQuery = "SELECT Name FROM sys.MSysObjects WHERE Type=1 AND Flags=0";
+        String sqlQuery = "SELECT cust_id FROM Customer";
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             con = DriverManager.getConnection(dbURL, "", "");
@@ -43,7 +41,7 @@ public class DataHandler {
             rs = stm.executeQuery(sqlQuery);
             while (rs.next()) {
             // each row is an array of objects
-                    l.add((String) rs.getObject(1));
+                    l.add((int) rs.getObject(1));
             }
         } catch (ClassNotFoundException cnfex) {
             System.err.println("Issue with the JDBC driver.");
@@ -69,6 +67,46 @@ public class DataHandler {
         return l;
     }
 
+public static Vector<Integer> getEquipment() {
+        Vector<Integer> l = new Vector<>();
+        
+        String sqlQuery = "SELECT equip_id FROM Equipment";
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            con = DriverManager.getConnection(dbURL, "", "");
+            stm = con.createStatement();
+            rs = stm.executeQuery(sqlQuery);
+            while (rs.next()) {
+            // each row is an array of objects
+                    l.add((int) rs.getObject(1));
+            }
+        } catch (ClassNotFoundException cnfex) {
+            System.err.println("Issue with the JDBC driver.");
+            System.exit(1); // terminate program - cannot recover
+        } catch (java.sql.SQLException sqlex) {
+            System.err.println(sqlex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+            //ex.printStackTrace();
+        } finally {
+            try {
+                if (null != con) {
+                    // cleanup resources, once after processing
+                    rs.close();
+                    stm.close();
+                    // and then finally close connection
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return l;
+    }
+
+    
+    
+
     public static void searchRecords(String table) {
         String sqlQuery = "SELECT * FROM " + table ;
         try {
@@ -91,6 +129,57 @@ public class DataHandler {
             //ex.printStackTrace();
         }
     }
+    public static void getCustDetails(int cust_id) {
+        String sqlQuery = "SELECT f_Name,phoneNo FROM Customer WHERE cust_id="+cust_id;
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            con = DriverManager.getConnection(dbURL, "", "");
+            PreparedStatement pst = con.prepareStatement(sqlQuery);
+            
+            
+            rs = pst.executeQuery();
+            rsMeta = rs.getMetaData();
+            columnCount = rsMeta.getColumnCount();
+            if(rs.next()) { // assign the result to the variables
+                rent.cust_name = rs.getString(1); 
+                rent.cust_phone = rs.getInt(2);
+            }
+        } catch (ClassNotFoundException cnfex) {
+            System.err.println("Issue with the JDBC driver.");
+            System.exit(1); // terminate program - cannot recover
+        } catch (java.sql.SQLException sqlex) {
+            System.err.println(sqlex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+            //ex.printStackTrace();
+        }
+    }  
+    
+    public static void getEquipDetails(int equip_id) {
+        String sqlQuery = "SELECT equip_name,price FROM Equipment WHERE equip_id="+equip_id;
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            con = DriverManager.getConnection(dbURL, "", "");
+            PreparedStatement pst = con.prepareStatement(sqlQuery);
+            
+            
+            rs = pst.executeQuery();
+            rsMeta = rs.getMetaData();
+            columnCount = rsMeta.getColumnCount();
+            if(rs.next()) { // assign the result to the variables
+                rent.equip_name = rs.getString(1); 
+                rent.equip_price = rs.getDouble(2);
+            }
+        } catch (ClassNotFoundException cnfex) {
+            System.err.println("Issue with the JDBC driver.");
+            System.exit(1); // terminate program - cannot recover
+        } catch (java.sql.SQLException sqlex) {
+            System.err.println(sqlex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+            //ex.printStackTrace();
+        }
+    }  
     
         public static void getAdminID(String admin_user) {
         String sqlQuery = "SELECT admin_id FROM Admin WHERE admin_user=?";
@@ -170,6 +259,81 @@ public class DataHandler {
     
     public static void delEquipment(int equip_id) {
         String sqlQuery = "DELETE FROM Equipment WHERE equip_id="+equip_id;
+        
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            con = DriverManager.getConnection(dbURL, "", "");
+            PreparedStatement pst = con.prepareStatement(sqlQuery);
+            pst.executeUpdate();
+            
+        } catch (ClassNotFoundException cnfex) {
+            System.err.println("Issue with the JDBC driver.");
+            System.exit(1); // terminate program - cannot recover
+        } catch (java.sql.SQLException sqlex) {
+            System.err.println(sqlex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+            //ex.printStackTrace();
+        }
+    }   
+    
+    public static void addCustomer(String f_name, String l_name, String email,int phoneNo) {
+        String sqlQuery = "INSERT INTO Customer (email,f_Name,l_Name,phoneNo,admin_id) VALUES(?,?,?,?,?)";
+        
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            con = DriverManager.getConnection(dbURL, "", "");
+            PreparedStatement pst = con.prepareStatement(sqlQuery);
+            pst.setString(1,email); // assign the user_id 
+            pst.setString(2,f_name);
+            pst.setString(3,l_name);
+            pst.setInt(4,phoneNo);
+            pst.setInt(5,login.admin_id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Customer Added Successfully");
+            
+        } catch (ClassNotFoundException cnfex) {
+            System.err.println("Issue with the JDBC driver.");
+            System.exit(1); // terminate program - cannot recover
+        } catch (java.sql.SQLException sqlex) {
+            JOptionPane.showMessageDialog(null, "Email/Phone number must be unique!");
+           
+        } catch (Exception ex) {
+            System.err.println(ex);
+            
+            //ex.printStackTrace();
+        }
+    }   
+    
+    public static void editCustomer(String f_name, String l_name, String email,int phoneNo) {
+        String sqlQuery = "UPDATE Customer SET email=?,f_Name=?,l_Name=?,phoneNo=?,admin_id=? WHERE cust_id=?";
+        
+        try {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            con = DriverManager.getConnection(dbURL, "", "");
+            PreparedStatement pst = con.prepareStatement(sqlQuery);
+            pst.setString(1,email); // assign the user_id 
+            pst.setString(2,f_name);
+            pst.setString(3,l_name);
+            pst.setInt(4,phoneNo);
+            pst.setInt(5,login.admin_id);
+            pst.setInt(6,customer.cust_id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Customer Edited Successfully");
+            
+        } catch (ClassNotFoundException cnfex) {
+            System.err.println("Issue with the JDBC driver.");
+            System.exit(1); // terminate program - cannot recover
+        } catch (java.sql.SQLException sqlex) {
+            System.err.println(sqlex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+            //ex.printStackTrace();
+        }
+    }   
+    
+    public static void delCustomer(int cust_id) {
+        String sqlQuery = "DELETE FROM Customer WHERE cust_id="+cust_id;
         
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");

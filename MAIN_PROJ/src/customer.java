@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -13,7 +16,10 @@ public class customer extends javax.swing.JFrame {
      * Creates new form customer
      */
     public customer() {
+        tableModel = new javax.swing.table.DefaultTableModel();
         initComponents();
+        jTable1.setModel(tableModel);
+        tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
     }
 
     /**
@@ -46,17 +52,9 @@ public class customer extends javax.swing.JFrame {
 
         jLabel1.setText("First Name:");
 
-        jTextField1.setText("jTextField1");
-
         jLabel2.setText("Last Name:");
 
-        jTextField2.setText("jTextField1");
-
         jLabel3.setText("Email:");
-
-        jTextField3.setText("jTextField1");
-
-        jTextField4.setText("jTextField1");
 
         jLabel4.setText("Phone No.:");
 
@@ -71,6 +69,11 @@ public class customer extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Insert");
@@ -95,11 +98,21 @@ public class customer extends javax.swing.JFrame {
         });
 
         jButton4.setText("Clear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 36)); // NOI18N
         jLabel5.setText("CUSTOMERS");
 
         jButton5.setText("Home");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,7 +155,7 @@ public class customer extends javax.swing.JFrame {
                         .addGap(173, 173, 173)
                         .addComponent(jLabel5)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,15 +199,93 @@ public class customer extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try {
+            
+            String f_name = jTextField1.getText(); // get the text inputted by the user from the studIdBox
+            String l_name = jTextField2.getText(); // get the text inputted by the user from the studNameBox
+            String email = jTextField3.getText();
+            
+            String phoneNoStr = jTextField4.getText(); // get the text inputted by the user from the studIdBox
+            int phone = Integer.parseInt(phoneNoStr); // convert the string into integer
+            
+            DataHandler.addCustomer(f_name,l_name, email, phone); // pass the variables studID, sutdName to the function searchUser to find if the login details is in the database
+            
+            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
+            
+            
+        } catch (Exception ex) { // if the student ID contains string, display the error
+         JOptionPane.showMessageDialog(null, "Customer Has Not Been Added");
+          }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        try {
+            
+            String f_name = jTextField1.getText(); // get the text inputted by the user from the studIdBox
+            String l_name = jTextField2.getText(); // get the text inputted by the user from the studNameBox
+            String email = jTextField3.getText();
+            
+            String phoneNoStr = jTextField4.getText(); // get the text inputted by the user from the studIdBox
+            int phone = Integer.parseInt(phoneNoStr); // convert the string into integer
+            
+           
+            
+            DataHandler.editCustomer(f_name,l_name, email, phone); // pass the variables studID, sutdName to the function searchUser to find if the login details is in the database
+            
+            
+            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
+            
+            
+        } catch (Exception ex) { // if the student ID contains string, display the error
+         JOptionPane.showMessageDialog(null, "Customer Has Not Been Edited");
+          }
+        
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        try{
+            Integer rowIndex = jTable1.getSelectedRow();
+            Integer id = Integer.valueOf(jTable1.getValueAt(rowIndex, 0).toString());
+            DataHandler.delCustomer(id);
+            JOptionPane.showMessageDialog(null, "Successfully Removed");
+            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "You Must Select A Customer From The Table", "No Customer Selected", 2);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+            jTextField1.setText(""); // get the text inputted by the user from the studIdBox
+            jTextField2.setText("");// get the text inputted by the user from the studNameBox
+            jTextField3.setText("");
+            jTextField4.setText("");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        try {
+        
+
+            Integer rowIndex = jTable1.getSelectedRow();
+            cust_id = Integer.valueOf(jTable1.getValueAt(rowIndex, 0).toString());
+            jTextField1.setText(jTable1.getValueAt(rowIndex, 2).toString());
+            jTextField2.setText(jTable1.getValueAt(rowIndex, 3).toString());
+            jTextField3.setText(jTable1.getValueAt(rowIndex, 1).toString());
+            jTextField4.setText(jTable1.getValueAt(rowIndex, 4).toString());
+        
+         } catch (Exception ex) { // if the student ID contains string, display the error
+        
+          }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false); // display the quiz window
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,4 +340,6 @@ public class customer extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
+    javax.swing.table.DefaultTableModel tableModel;
+    public static int cust_id=0;
 }

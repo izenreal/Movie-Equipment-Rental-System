@@ -8,12 +8,30 @@
  * @author Dell
  */
 public class rent extends javax.swing.JFrame {
-
+    public static String cust_name="";
+    public static int cust_phone=0;
+    public static int cust_id=0;
+    public static String cust_idStr="";
+    public static int equip_id=0;
+    public static String equip_idStr="";
+    public static String equip_name="";
+    public static double equip_price=0;
     /**
      * Creates new form rent
      */
     public rent() {
         initComponents();
+        cust_idStr = jComboBox4.getSelectedItem().toString(); 
+        cust_id = Integer.parseInt(cust_idStr);
+        DataHandler.getCustDetails(cust_id);
+        jTextField2.setText(cust_name);
+        jTextField3.setText(String.valueOf(cust_phone));
+        
+        equip_idStr = jComboBox2.getSelectedItem().toString(); 
+        equip_id = Integer.parseInt(equip_idStr);
+        DataHandler.getEquipDetails(equip_id);
+        jTextField4.setText(equip_name);
+        jTextField5.setText(String.valueOf(equip_price));
     }
 
     /**
@@ -31,7 +49,6 @@ public class rent extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -50,6 +67,7 @@ public class rent extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jComboBox4 = new javax.swing.JComboBox<>();
 
         jButton3.setText("jButton3");
 
@@ -61,17 +79,25 @@ public class rent extends javax.swing.JFrame {
 
         jTextField2.setEditable(false);
         jTextField2.setText("jTextField1");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Customer Phone:");
 
         jTextField3.setEditable(false);
         jTextField3.setText("jTextField1");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel4.setText("Equipment ID:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getEquipment()));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
 
         jLabel5.setText("Equipment Name:");
 
@@ -104,6 +130,13 @@ public class rent extends javax.swing.JFrame {
 
         jButton5.setText("Home");
 
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getCustomer()));
+        jComboBox4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox4ItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,9 +151,9 @@ public class rent extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel1))
                                 .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(45, 45, 45))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +194,7 @@ public class rent extends javax.swing.JFrame {
                                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel11)
                                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addContainerGap(13, Short.MAX_VALUE))))
+                                .addContainerGap(24, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton5)
                         .addGap(118, 118, 118)
@@ -175,12 +208,12 @@ public class rent extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
                     .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -230,6 +263,28 @@ public class rent extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jComboBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox4ItemStateChanged
+        // TODO add your handling code here:
+        cust_idStr = jComboBox4.getSelectedItem().toString();
+        cust_id = Integer.parseInt(cust_idStr);
+        DataHandler.getCustDetails(cust_id);
+        jTextField2.setText(cust_name);
+        jTextField3.setText(String.valueOf(cust_phone));
+    }//GEN-LAST:event_jComboBox4ItemStateChanged
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        // TODO add your handling code here:
+        equip_idStr = jComboBox2.getSelectedItem().toString();
+        equip_id = Integer.parseInt(equip_idStr);
+        DataHandler.getEquipDetails(equip_id);
+        jTextField4.setText(equip_name);
+        jTextField5.setText(String.valueOf(equip_price));
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -270,9 +325,9 @@ public class rent extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;

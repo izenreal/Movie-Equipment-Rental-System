@@ -161,9 +161,6 @@ public class equipment extends javax.swing.JFrame {
          } catch (Exception ex) { // if the student ID contains string, display the error
          JOptionPane.showMessageDialog(null, "Select An Item!");
           }
-        
-                               
-           
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
