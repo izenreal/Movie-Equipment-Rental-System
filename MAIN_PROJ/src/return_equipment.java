@@ -1,9 +1,7 @@
 
 
-import static java.lang.Math.abs;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.Date;
 import java.sql.Timestamp;
 import javax.swing.JOptionPane;
@@ -18,34 +16,26 @@ import javax.swing.JOptionPane;
  * @author Dell
  */
 public class return_equipment extends javax.swing.JFrame {
-
-    public static int rent_id=0;
-    public static String rent_idStr="";
-    public static String equip_name="";
-    public static int equip_id=0;
-    public static double equip_price=0;
-    public static String cust_name="";
-    public static Date return_date;
-    public static int price = 1;
-    public static Date currentDate = new Date();
-    public static int quantity = 0;
-  
-    
     /**
      * Creates new form return_equipment
      */
     public return_equipment() {
         initComponents();
-        rent_idStr = jComboBox1.getSelectedItem().toString(); 
+        // make the window in the center screen
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
+        
+        // get the rent id and search its details then set it to custNameTextField and equipNameTextField
+        rent_idStr = rentComboBox.getSelectedItem().toString(); 
         rent_id = Integer.parseInt(rent_idStr);
         DataHandler.getRentDetails(rent_id);
-        jTextField1.setText(cust_name);
-        jTextField2.setText(equip_name);
+        custNameTextField.setText(cust_name);
+        equipNameTextField.setText(equip_name);
         
-        
-        jDateChooser1.setMinSelectableDate(currentDate);
-        jDateChooser1.setDate(currentDate);
-        
+        // set the minimum selectable date to return_date and set it as the returnDate
+        returnedDate.setMinSelectableDate(return_date);
+        returnedDate.setDate(return_date);
     }
 
     /**
@@ -57,66 +47,65 @@ public class return_equipment extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
+        rentComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        custNameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        equipNameTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
+        returnedDate = new com.toedter.calendar.JDateChooser();
+        returnButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        homeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getRent()));
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+        rentComboBox.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getRent()));
+        rentComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
+                rentComboBoxItemStateChanged(evt);
             }
         });
-        jComboBox1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        rentComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jComboBox1PropertyChange(evt);
+                rentComboBoxPropertyChange(evt);
             }
         });
 
         jLabel1.setText("Rent ID:");
 
-        jTextField1.setEditable(false);
-        jTextField1.setText("jTextField1");
+        custNameTextField.setEditable(false);
 
         jLabel2.setText("Customer Name:");
 
         jLabel3.setText("Equipment Name:");
 
-        jTextField2.setEditable(false);
-        jTextField2.setText("jTextField2");
+        equipNameTextField.setEditable(false);
 
         jLabel4.setText("Return Date:");
 
-        jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        returnedDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDateChooser1PropertyChange(evt);
+                returnedDatePropertyChange(evt);
             }
         });
 
-        jButton1.setText("Return");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        returnButton.setText("Return");
+        returnButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                returnButtonActionPerformed(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Light", 1, 36)); // NOI18N
         jLabel6.setText("RETURN");
 
-        jButton5.setText("Home");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                homeButtonActionPerformed(evt);
             }
         });
 
@@ -137,14 +126,14 @@ public class return_equipment extends javax.swing.JFrame {
                                     .addComponent(jLabel4))
                                 .addGap(28, 28, 28)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(custNameTextField)
+                                    .addComponent(equipNameTextField)
+                                    .addComponent(returnedDate, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                                    .addComponent(rentComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(returnButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(homeButton)
                         .addGap(20, 217, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -155,78 +144,76 @@ public class return_equipment extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton5)
+                .addComponent(homeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(custNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(equipNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(returnedDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
+                .addComponent(returnButton)
                 .addGap(29, 29, 29))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBox1PropertyChange
+    private void rentComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rentComboBoxPropertyChange
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jComboBox1PropertyChange
+    }//GEN-LAST:event_rentComboBoxPropertyChange
 
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+    private void rentComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rentComboBoxItemStateChanged
         // TODO add your handling code here:
-        rent_idStr = jComboBox1.getSelectedItem().toString(); 
+        // get the rent id and search its details then set it to custNameTextField and equipNameTextField
+        rent_idStr = rentComboBox.getSelectedItem().toString(); 
         rent_id = Integer.parseInt(rent_idStr);
         DataHandler.getRentDetails(rent_id);
-        jTextField1.setText(cust_name);
-        jTextField2.setText(equip_name);
-        jDateChooser1.setMinSelectableDate(return_date);
-        jDateChooser1.setDate(return_date);
+        custNameTextField.setText(cust_name);
+        equipNameTextField.setText(equip_name);
         
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
+        // set the minimum selectable date to return_date and set it as the returnDate
+        returnedDate.setMinSelectableDate(return_date);
+        returnedDate.setDate(return_date);
+        
+    }//GEN-LAST:event_rentComboBoxItemStateChanged
 
-    private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser1PropertyChange
+    private void returnedDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_returnedDatePropertyChange
    
-    }//GEN-LAST:event_jDateChooser1PropertyChange
+    }//GEN-LAST:event_returnedDatePropertyChange
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void returnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnButtonActionPerformed
         // TODO add your handling code here:
-        
-         
-       System.out.println(new Timestamp(jDateChooser1.getDate().getTime()));
+        // convert the return date to timestamp and get the difference between return date and returned date
+        int duration =DataHandler.getDateDiff(return_date,(new Timestamp(returnedDate.getDate().getTime()))); 
+        // compute for the fine
+        int fine = duration * price;
+        if(fine<0){ // if the fine is less than 0, set it to 0 (this only happens if the customer returns the equipment day/s before the return date)
+            fine = 0;
+        } 
+        // call the return equipment and pass the variables
+        DataHandler.returnEquipment(equip_id, rent_id, fine, new Timestamp(returnedDate.getDate().getTime()),quantity);
+        JOptionPane.showMessageDialog(null, "Thank you for returning, you have a FINE of "+fine+" Euro");
        
-        
-       int duration =DataHandler.getDateDiff(return_date,(new Timestamp(jDateChooser1.getDate().getTime()))); 
-       int fine = duration * price;
-       if(fine<0){
-           fine = 0;
-       } 
-       DataHandler.returnEquipment(equip_id, rent_id, fine, new Timestamp(jDateChooser1.getDate().getTime()),quantity);
-       JOptionPane.showMessageDialog(null, "Thank you for returning, you have a FINE of "+fine+" Euro");
-       
-       
-       
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_returnButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false); // display the quiz window
-    }//GEN-LAST:event_jButton5ActionPerformed
+        this.setVisible(false); // hide this window
+    }//GEN-LAST:event_homeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,16 +251,26 @@ public class return_equipment extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JTextField custNameTextField;
+    private javax.swing.JTextField equipNameTextField;
+    private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JComboBox<String> rentComboBox;
+    private javax.swing.JButton returnButton;
+    private com.toedter.calendar.JDateChooser returnedDate;
     // End of variables declaration//GEN-END:variables
+    public static int rent_id=0;
+    public static String rent_idStr="";
+    public static String equip_name="";
+    public static int equip_id=0;
+    public static double equip_price=0;
+    public static String cust_name="";
+    public static Date return_date;
+    public static int price = 1;
+    public static Date currentDate = new Date();
+    public static int quantity = 0;
 }

@@ -1,4 +1,6 @@
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 /*
@@ -16,9 +18,15 @@ public class customer extends javax.swing.JFrame {
      * Creates new form customer
      */
     public customer() {
-        tableModel = new javax.swing.table.DefaultTableModel();
+        
         initComponents();
-        jTable1.setModel(tableModel);
+        // make the window in the center screen
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2); 
+        // display the customer table from the database by default
+        tableModel = new javax.swing.table.DefaultTableModel(); 
+        customerTable.setModel(tableModel);
         tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
     }
 
@@ -32,23 +40,24 @@ public class customer extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        fnameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        lnameTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        emailTextField = new javax.swing.JTextField();
+        phoneTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        customerTable = new javax.swing.JTable();
+        insertButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        homeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("First Name:");
 
@@ -58,7 +67,7 @@ public class customer extends javax.swing.JFrame {
 
         jLabel4.setText("Phone No.:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        customerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -69,48 +78,48 @@ public class customer extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        customerTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                customerTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(customerTable);
 
-        jButton1.setText("Insert");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        insertButton.setText("Insert");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Edit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                insertButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Remove");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setText("Edit");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Clear");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        removeButton.setText("Remove");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                removeButtonActionPerformed(evt);
+            }
+        });
+
+        clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 36)); // NOI18N
         jLabel5.setText("CUSTOMERS");
 
-        jButton5.setText("Home");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                homeButtonActionPerformed(evt);
             }
         });
 
@@ -126,32 +135,32 @@ public class customer extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(fnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel3)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(lnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(clearButton, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(insertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(homeButton)
                         .addGap(173, 173, 173)
                         .addComponent(jLabel5)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -163,129 +172,122 @@ public class customer extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jButton5))
+                    .addComponent(homeButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)))
+                        .addComponent(clearButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(insertButton)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jButton3)))
+                        .addComponent(editButton)
+                        .addComponent(removeButton)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         // TODO add your handling code here:
         try {
             
-            String f_name = jTextField1.getText(); // get the text inputted by the user from the studIdBox
-            String l_name = jTextField2.getText(); // get the text inputted by the user from the studNameBox
-            String email = jTextField3.getText();
+            String f_name = fnameTextField.getText(); // get the text inputted by the user from the fnameTextField
+            String l_name = lnameTextField.getText(); // get the text inputted by the user from the lnameTextField
+            String email = emailTextField.getText();  // get the text inputted by the user from the emailTextField
             
-            String phoneNoStr = jTextField4.getText(); // get the text inputted by the user from the studIdBox
+            String phoneNoStr = phoneTextField.getText(); // get the text inputted by the user from the phoneTextField
             int phone = Integer.parseInt(phoneNoStr); // convert the string into integer
             
-            DataHandler.addCustomer(f_name,l_name, email, phone); // pass the variables studID, sutdName to the function searchUser to find if the login details is in the database
-            
-            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
-            
-            
-        } catch (Exception ex) { // if the student ID contains string, display the error
+            DataHandler.addCustomer(f_name,l_name, email, phone); // pass the variables f_name,l_name, email, phone to the function searchUser
+            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer")); // update the table
+      
+        } catch (Exception ex) { // if there is an error, display that the customer is not added
          JOptionPane.showMessageDialog(null, "Customer Has Not Been Added");
           }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_insertButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
         try {
             
-            String f_name = jTextField1.getText(); // get the text inputted by the user from the studIdBox
-            String l_name = jTextField2.getText(); // get the text inputted by the user from the studNameBox
-            String email = jTextField3.getText();
+            String f_name = fnameTextField.getText(); // get the text inputted by the user from the fnameTextField
+            String l_name = lnameTextField.getText(); // get the text inputted by the user from the lnameTextField
+            String email = emailTextField.getText(); // get the text inputted by the user from the emailTextField
             
-            String phoneNoStr = jTextField4.getText(); // get the text inputted by the user from the studIdBox
+            String phoneNoStr = phoneTextField.getText(); // get the text inputted by the user from the phoneTextField
             int phone = Integer.parseInt(phoneNoStr); // convert the string into integer
             
-           
-            
-            DataHandler.editCustomer(f_name,l_name, email, phone); // pass the variables studID, sutdName to the function searchUser to find if the login details is in the database
-            
-            
-            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
+            DataHandler.editCustomer(f_name,l_name, email, phone); // pass the variables f_name,l_name, email, phone to the function editCustomer 
+            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer")); // update the table
             
             
-        } catch (Exception ex) { // if the student ID contains string, display the error
+        } catch (Exception ex) { // if there is an error, display that the customer is not edited
          JOptionPane.showMessageDialog(null, "Customer Has Not Been Edited");
           }
         
        
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_editButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         // TODO add your handling code here:
         try{
-            Integer rowIndex = jTable1.getSelectedRow();
-            Integer id = Integer.valueOf(jTable1.getValueAt(rowIndex, 0).toString());
-            DataHandler.delCustomer(id);
+            Integer rowIndex = customerTable.getSelectedRow(); //get the selected row and assign it to rowIndex variable
+            Integer id = Integer.valueOf(customerTable.getValueAt(rowIndex, 0).toString()); // get the first value which is the customer id and convert it to integer
+            DataHandler.delCustomer(id); // pass the customer id to the function delCustomer to delete the customer from the database
             JOptionPane.showMessageDialog(null, "Successfully Removed");
-            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer"));
-        }catch(Exception ex){
+            tableModel.setDataVector(DataHandler.getRows("Customer"), DataHandler.getTitles("Customer")); // update the table
+        }catch(Exception ex){ // if the user pressed this button but not selected a row, display the error.
             JOptionPane.showMessageDialog(null, "You Must Select A Customer From The Table", "No Customer Selected", 2);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         // TODO add your handling code here:
-            jTextField1.setText(""); // get the text inputted by the user from the studIdBox
-            jTextField2.setText("");// get the text inputted by the user from the studNameBox
-            jTextField3.setText("");
-            jTextField4.setText("");
-    }//GEN-LAST:event_jButton4ActionPerformed
+        // clear the textfields
+        fnameTextField.setText(""); 
+        lnameTextField.setText("");
+        emailTextField.setText("");
+        phoneTextField.setText("");
+    }//GEN-LAST:event_clearButtonActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void customerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerTableMouseClicked
         // TODO add your handling code here:
         try {
+            Integer rowIndex = customerTable.getSelectedRow();  //get the selected row and assign it to rowIndex variable
+            cust_id = Integer.valueOf(customerTable.getValueAt(rowIndex, 0).toString()); // get the first value which is the customer id and convert it to integer
+            fnameTextField.setText(customerTable.getValueAt(rowIndex, 2).toString()); // get the third value which is the fname and set it to the textfield
+            lnameTextField.setText(customerTable.getValueAt(rowIndex, 3).toString()); // get the fourth value which is the lname and set it to the textfield
+            emailTextField.setText(customerTable.getValueAt(rowIndex, 1).toString()); // get the second value which is the email and set it to the textfield
+            phoneTextField.setText(customerTable.getValueAt(rowIndex, 4).toString()); // get the fifth value which is the phone and set it to the textfield
         
-
-            Integer rowIndex = jTable1.getSelectedRow();
-            cust_id = Integer.valueOf(jTable1.getValueAt(rowIndex, 0).toString());
-            jTextField1.setText(jTable1.getValueAt(rowIndex, 2).toString());
-            jTextField2.setText(jTable1.getValueAt(rowIndex, 3).toString());
-            jTextField3.setText(jTable1.getValueAt(rowIndex, 1).toString());
-            jTextField4.setText(jTable1.getValueAt(rowIndex, 4).toString());
-        
-         } catch (Exception ex) { // if the student ID contains string, display the error
-        
+         } catch (Exception ex) { 
+             System.err.println(ex);
           }
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_customerTableMouseClicked
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false); // display the quiz window
-    }//GEN-LAST:event_jButton5ActionPerformed
+        this.setVisible(false); // hide this window
+    }//GEN-LAST:event_homeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -323,22 +325,22 @@ public class customer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton clearButton;
+    private javax.swing.JTable customerTable;
+    private javax.swing.JButton editButton;
+    private javax.swing.JTextField emailTextField;
+    private javax.swing.JTextField fnameTextField;
+    private javax.swing.JButton homeButton;
+    private javax.swing.JButton insertButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField lnameTextField;
+    private javax.swing.JTextField phoneTextField;
+    private javax.swing.JButton removeButton;
     // End of variables declaration//GEN-END:variables
     javax.swing.table.DefaultTableModel tableModel;
     public static int cust_id=0;

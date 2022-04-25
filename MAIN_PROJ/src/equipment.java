@@ -1,4 +1,6 @@
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 /*
@@ -16,9 +18,15 @@ public class equipment extends javax.swing.JFrame {
      * Creates new form equipment
      */
     public equipment() {
-        tableModel = new javax.swing.table.DefaultTableModel();
+        
         initComponents();
-        jTable1.setModel(tableModel);
+        // make the window in the center screen
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2); 
+        // display the equipment table from the database by default
+        tableModel = new javax.swing.table.DefaultTableModel();
+        equipmentTable.setModel(tableModel);
         tableModel.setDataVector(DataHandler.getRows("Equipment"), DataHandler.getTitles("Equipment"));
     }
 
@@ -31,43 +39,41 @@ public class equipment extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        addEquipButton = new javax.swing.JButton();
+        editEquipButton = new javax.swing.JButton();
+        removeEquipButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        equipmentTable = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        homeButton = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setResizable(false);
 
-        jButton1.setBackground(new java.awt.Color(153, 255, 153));
-        jButton1.setText("Add New Equipment");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addEquipButton.setText("Add New Equipment");
+        addEquipButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addEquipButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(153, 153, 255));
-        jButton2.setText("Edit Selected Equipment");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        editEquipButton.setText("Edit Selected Equipment");
+        editEquipButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                editEquipButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 102, 102));
-        jButton3.setText("Remove Selected Equipment");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        removeEquipButton.setText("Remove Selected Equipment");
+        removeEquipButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                removeEquipButtonActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        equipmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,22 +84,22 @@ public class equipment extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(equipmentTable);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 36)); // NOI18N
         jLabel5.setText("EQUIPMENTS");
 
-        jButton5.setText("Home");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                homeButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Refresh");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                refreshButtonActionPerformed(evt);
             }
         });
 
@@ -106,17 +112,17 @@ public class equipment extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(addEquipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editEquipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeEquipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(homeButton)
                         .addGap(159, 159, 159)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)))
+                        .addComponent(refreshButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -127,70 +133,69 @@ public class equipment extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jButton5))
+                            .addComponent(homeButton))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(refreshButton)
                         .addGap(8, 8, 8)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addEquipButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editEquipButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(removeEquipButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void editEquipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEquipButtonActionPerformed
         // TODO add your handling code here:
         try {
-        edit_equip edit_eq = new edit_equip();
-
-            Integer rowIndex = jTable1.getSelectedRow();
-            edit_equip.equip_id = Integer.valueOf(jTable1.getValueAt(rowIndex, 0).toString());
-            edit_eq.jTextField1.setText(jTable1.getValueAt(rowIndex, 1).toString());
-            edit_eq.jTextField2.setText(jTable1.getValueAt(rowIndex, 2).toString());
-            edit_eq.jTextField3.setText(jTable1.getValueAt(rowIndex, 5).toString());
-            edit_eq.jTextField4.setText(jTable1.getValueAt(rowIndex, 3).toString());
-        edit_eq.setVisible(true); // display the quiz window
-         } catch (Exception ex) { // if the student ID contains string, display the error
+            edit_equip edit_eq = new edit_equip();
+            Integer rowIndex = equipmentTable.getSelectedRow(); //get the selected row and assign it to rowIndex variable
+            edit_equip.equip_id = Integer.valueOf(equipmentTable.getValueAt(rowIndex, 0).toString()); // get the first value which is the equip id and set it to the textfield
+            edit_eq.nameTextField.setText(equipmentTable.getValueAt(rowIndex, 1).toString()); // get the second value which is the name and set it to the textfield
+            edit_eq.brandTextField.setText(equipmentTable.getValueAt(rowIndex, 2).toString()); // get the third value which is the brand and set it to the textfield
+            edit_eq.quantityTextField.setText(equipmentTable.getValueAt(rowIndex, 5).toString()); // get the sixth value which is the quantity and set it to the textfield
+            edit_eq.priceTextField.setText(equipmentTable.getValueAt(rowIndex, 3).toString()); // get the fourth value which is the price and set it to the textfield
+            edit_eq.setVisible(true); // display the edit_equipment window
+         } catch (Exception ex) { // if the user did not select any row, display an error
          JOptionPane.showMessageDialog(null, "Select An Item!");
           }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_editEquipButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addEquipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipButtonActionPerformed
         // TODO add your handling code here:
-        add_new_equip add_eq = new add_new_equip();
-        add_eq.setVisible(true); // display the quiz window
-    }//GEN-LAST:event_jButton1ActionPerformed
+        add_new_equip add_new = new add_new_equip();
+        add_new.setVisible(true); // display the add_new_equip window
+    }//GEN-LAST:event_addEquipButtonActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         // TODO add your handling code here:
-        tableModel.setDataVector(DataHandler.getRows("Equipment"), DataHandler.getTitles("Equipment"));
-    }//GEN-LAST:event_jButton4ActionPerformed
+        tableModel.setDataVector(DataHandler.getRows("Equipment"), DataHandler.getTitles("Equipment")); // update the table
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void removeEquipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEquipButtonActionPerformed
         // TODO add your handling code here:
         try{
-            Integer rowIndex = jTable1.getSelectedRow();
-            Integer id = Integer.valueOf(jTable1.getValueAt(rowIndex, 0).toString());
-            DataHandler.delEquipment(id);
+            Integer rowIndex = equipmentTable.getSelectedRow(); //get the selected row and assign it to rowIndex variable
+            Integer id = Integer.valueOf(equipmentTable.getValueAt(rowIndex, 0).toString()); // get the first value which is the equipment id and convert it to integer
+            DataHandler.delEquipment(id); // pass the equipment id to the function delEquipment to delete the equipment from the database
             JOptionPane.showMessageDialog(null, "Successfully Removed");
-            tableModel.setDataVector(DataHandler.getRows("Equipment"), DataHandler.getTitles("Equipment"));
-        }catch(Exception ex){
+            tableModel.setDataVector(DataHandler.getRows("Equipment"), DataHandler.getTitles("Equipment")); // update the table
+        }catch(Exception ex){ // if the user pressed this button but not selected a row, display the error.
             JOptionPane.showMessageDialog(null, "You Must Select A Product From The Table", "No Product Selected", 2);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_removeEquipButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false); // display the quiz window
-    }//GEN-LAST:event_jButton5ActionPerformed
+        this.setVisible(false); // hide this window
+    }//GEN-LAST:event_homeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,14 +233,14 @@ public class equipment extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton addEquipButton;
+    private javax.swing.JButton editEquipButton;
+    private javax.swing.JTable equipmentTable;
+    private javax.swing.JButton homeButton;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JButton removeEquipButton;
     // End of variables declaration//GEN-END:variables
     javax.swing.table.DefaultTableModel tableModel;
 }

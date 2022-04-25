@@ -1,7 +1,6 @@
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -16,43 +15,42 @@ import javax.swing.JOptionPane;
  * @author Dell
  */
 public class rent extends javax.swing.JFrame {
-    public static String cust_name="";
-    public static int cust_phone=0;
-    public static int cust_id=0;
-    public static String cust_idStr="";
-    public static int equip_id=0;
-    public static String equip_idStr="";
-    public static String equip_name="";
-    public static double equip_price=0;
-    public static Date rent_start;
-    public static int quantity=0;
+    
     
     /**
      * Creates new form rent
      */
     public rent() {
         initComponents();
-        cust_idStr = jComboBox4.getSelectedItem().toString(); 
+        // make the window in the center screen
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2); 
+        
+        // get the customer id and search its details then set it to custNameTextField and custPhoneTextField
+        String cust_idStr = custComboBox.getSelectedItem().toString(); 
         cust_id = Integer.parseInt(cust_idStr);
         DataHandler.getCustDetails(cust_id);
-        jTextField2.setText(cust_name);
-        jTextField3.setText(String.valueOf(cust_phone));
+        custNameTextField.setText(cust_name);
+        custPhoneTextField.setText(String.valueOf(cust_phone));
         
-        equip_idStr = jComboBox2.getSelectedItem().toString(); 
+        // get the equipment id and search its details then set it to equipNameTextField, equipPriceTextField and availableTextField
+        String equip_idStr = equipComboBox.getSelectedItem().toString(); 
         equip_id = Integer.parseInt(equip_idStr);
         DataHandler.getEquipDetails(equip_id);
-        jTextField4.setText(equip_name);
-        jTextField5.setText(String.valueOf(equip_price));
-        jTextField6.setText(String.valueOf(quantity));
+        equipNameTextField.setText(equip_name);
+        equipPriceTextField.setText(String.valueOf(equip_price));
+        availableTextField.setText(String.valueOf(quantity));
        
-        
+        // set the date of rent_start to today
         rent_start = new Date();
-        jDateChooser1.setDate(rent_start);
+        rentStartDate.setDate(rent_start);
         
+        // add 1 day to the current date and set that date as the minimum selectable date for returning the equipment
         Calendar cal = Calendar.getInstance(); 
         cal.add(Calendar.DAY_OF_MONTH, 1);
-        jDateChooser2.setMinSelectableDate(cal.getTime());
-        jDateChooser2.setDate(cal.getTime());
+        returnRentDate.setMinSelectableDate(cal.getTime());
+        returnRentDate.setDate(cal.getTime());
         
     }
 
@@ -68,88 +66,85 @@ public class rent extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        custNameTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        custPhoneTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        equipComboBox = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        equipNameTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        equipPriceTextField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        rentStartDate = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        returnRentDate = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         totalLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        rentButton = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        homeButton = new javax.swing.JButton();
+        custComboBox = new javax.swing.JComboBox<>();
+        quantityTextField = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        availableTextField = new javax.swing.JTextField();
 
         jButton3.setText("jButton3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Customer ID:");
 
         jLabel2.setText("Customer Name:");
 
-        jTextField2.setEditable(false);
-        jTextField2.setText("jTextField1");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        custNameTextField.setEditable(false);
+        custNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                custNameTextFieldActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Customer Phone:");
 
-        jTextField3.setEditable(false);
-        jTextField3.setText("jTextField1");
+        custPhoneTextField.setEditable(false);
 
         jLabel4.setText("Equipment ID:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getEquipment()));
-        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+        equipComboBox.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getEquipment()));
+        equipComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox2ItemStateChanged(evt);
+                equipComboBoxItemStateChanged(evt);
             }
         });
 
         jLabel5.setText("Equipment Name:");
 
-        jTextField4.setEditable(false);
-        jTextField4.setText("jTextField1");
+        equipNameTextField.setEditable(false);
 
         jLabel6.setText("Equipment Price:");
 
-        jTextField5.setEditable(false);
-        jTextField5.setText("jTextField1");
+        equipPriceTextField.setEditable(false);
 
         jLabel7.setText("Quantity:");
 
-        jDateChooser1.setEnabled(false);
+        rentStartDate.setEnabled(false);
 
         jLabel8.setText("Rent Date:");
 
         jLabel9.setText("Return Date:");
 
-        jDateChooser2.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        returnRentDate.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                jDateChooser2InputMethodTextChanged(evt);
+                returnRentDateInputMethodTextChanged(evt);
             }
         });
-        jDateChooser2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        returnRentDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDateChooser2PropertyChange(evt);
+                returnRentDatePropertyChange(evt);
             }
         });
 
@@ -157,36 +152,35 @@ public class rent extends javax.swing.JFrame {
 
         totalLabel.setText("0.00");
 
-        jButton1.setText("Rent");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        rentButton.setText("Rent");
+        rentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                rentButtonActionPerformed(evt);
             }
         });
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Light", 1, 36)); // NOI18N
         jLabel12.setText("RENT");
 
-        jButton5.setText("Home");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                homeButtonActionPerformed(evt);
             }
         });
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getCustomer()));
-        jComboBox4.addItemListener(new java.awt.event.ItemListener() {
+        custComboBox.setModel(new javax.swing.DefaultComboBoxModel(DataHandler.getCustomer()));
+        custComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox4ItemStateChanged(evt);
+                custComboBoxItemStateChanged(evt);
             }
         });
 
-        jTextField1.setText("1");
+        quantityTextField.setText("1");
 
         jLabel11.setText("Available:");
 
-        jTextField6.setEditable(false);
-        jTextField6.setText("jTextField6");
+        availableTextField.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -203,8 +197,8 @@ public class rent extends javax.swing.JFrame {
                                     .addComponent(jLabel1))
                                 .addGap(22, 22, 22)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(custNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                                    .addComponent(custComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(45, 45, 45))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,26 +210,26 @@ public class rent extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                                            .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(rentStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                                            .addComponent(returnRentDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jTextField1)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
+                                            .addComponent(quantityTextField)
+                                            .addComponent(custPhoneTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
                                         .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(32, 32, 32)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(equipComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(equipNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -243,13 +237,13 @@ public class rent extends javax.swing.JFrame {
                                             .addComponent(jLabel11))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                                            .addComponent(equipPriceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                                             .addComponent(totalLabel)
-                                            .addComponent(jTextField6)))
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap(28, Short.MAX_VALUE))))
+                                            .addComponent(availableTextField)))
+                                    .addComponent(rentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(13, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(homeButton)
                         .addGap(118, 118, 118)
                         .addComponent(jLabel12)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -260,37 +254,37 @@ public class rent extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
-                    .addComponent(jButton5))
+                    .addComponent(homeButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(custComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(custNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(custPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(equipComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(equipNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(equipPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(availableTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -298,98 +292,99 @@ public class rent extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(totalLabel))
                         .addGap(36, 36, 36)
-                        .addComponent(jButton1))
+                        .addComponent(rentButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel7)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel8))
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rentStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel9))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
-                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(returnRentDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(28, 28, 28))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void custNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custNameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_custNameTextFieldActionPerformed
 
-    private void jComboBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox4ItemStateChanged
+    private void custComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_custComboBoxItemStateChanged
         // TODO add your handling code here:
-        cust_idStr = jComboBox4.getSelectedItem().toString();
+        // get the customer id and search its details then set it to custNameTextField and custPhoneTextField
+        String cust_idStr = custComboBox.getSelectedItem().toString(); 
         cust_id = Integer.parseInt(cust_idStr);
         DataHandler.getCustDetails(cust_id);
-        jTextField2.setText(cust_name);
-        jTextField3.setText(String.valueOf(cust_phone));
+        custNameTextField.setText(cust_name);
+        custPhoneTextField.setText(String.valueOf(cust_phone));
         
         
-    }//GEN-LAST:event_jComboBox4ItemStateChanged
+    }//GEN-LAST:event_custComboBoxItemStateChanged
 
-    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+    private void equipComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_equipComboBoxItemStateChanged
         // TODO add your handling code here:
-        equip_idStr = jComboBox2.getSelectedItem().toString();
+        // get the equipment id and search its details then set it to equipNameTextField, equipPriceTextField and availableTextField
+        String equip_idStr = equipComboBox.getSelectedItem().toString(); 
         equip_id = Integer.parseInt(equip_idStr);
         DataHandler.getEquipDetails(equip_id);
-        jTextField4.setText(equip_name);
-        jTextField5.setText(String.valueOf(equip_price));
-        jTextField6.setText(String.valueOf(quantity));
+        equipNameTextField.setText(equip_name);
+        equipPriceTextField.setText(String.valueOf(equip_price));
+        availableTextField.setText(String.valueOf(quantity));
         
-    }//GEN-LAST:event_jComboBox2ItemStateChanged
+    }//GEN-LAST:event_equipComboBoxItemStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void rentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentButtonActionPerformed
         // TODO add your handling code here:
           //java.sql.Date sqldate = new java.sql.Date(jDateChooser3.getDate().getTime());
           //java.sql.Date sqldate = new java.sql.Date(jDateChooser3.getDate().getTime());
         try { 
-        Date rent_end;
+            Date rent_end; // create a variable date
         
-        String quan = jTextField1.getText();
-        int rentQuantity = Integer.parseInt(quan);
-        
-        
-        if(rentQuantity>quantity){
-            JOptionPane.showMessageDialog(null, "Please enter less than the quantity available");
-        } else{
-            rent_end = new Date(jDateChooser2.getDate().getTime());
-            int duration =DataHandler.getDateDiff(rent_start,rent_end); 
-            double total = equip_price * duration * rentQuantity;
-            totalLabel.setText(total+"");
-            DataHandler.addRent(cust_id, rent_start, rent_end, rentQuantity, equip_id, total);}
-        
-       
-        
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Invalid input!");
-        } 
-    }//GEN-LAST:event_jButton1ActionPerformed
+            // get the string quantity and convert it to integer
+            String quan = quantityTextField.getText();
+            int rentQuantity = Integer.parseInt(quan);
+                
+            // check if the quantity thats being asked to rent is more than the available quantity
+            if(rentQuantity>quantity){
+                JOptionPane.showMessageDialog(null, "Please enter less than the quantity available"); 
+            } else{
+                // if the quantity thats being asked to rent is less than the available,
+                rent_end = new Date(returnRentDate.getDate().getTime()); // get the return date
+                int duration =DataHandler.getDateDiff(rent_start,rent_end); // get the difference in days of rent_start and rent_end
+                double total = equip_price * duration * rentQuantity; // compute for the total price
+                totalLabel.setText(total+""); // assign the total price in the label
+                DataHandler.addRent(cust_id, rent_start, rent_end, rentQuantity, equip_id, total);} // call the function addRent and pass these variables cust_id, rent_start, rent_end, rentQuantity, equip_id, total 
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(null, "Invalid input!"); // if the user inputted characters, instead of integers, display the error
+            } 
+    }//GEN-LAST:event_rentButtonActionPerformed
 
-    private void jDateChooser2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser2PropertyChange
+    private void returnRentDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_returnRentDatePropertyChange
         // TODO add your handling code here:
         
        
-    }//GEN-LAST:event_jDateChooser2PropertyChange
+    }//GEN-LAST:event_returnRentDatePropertyChange
 
-    private void jDateChooser2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jDateChooser2InputMethodTextChanged
+    private void returnRentDateInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_returnRentDateInputMethodTextChanged
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jDateChooser2InputMethodTextChanged
+    }//GEN-LAST:event_returnRentDateInputMethodTextChanged
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false); // display the quiz window
-    }//GEN-LAST:event_jButton5ActionPerformed
+        this.setVisible(false); // hide this window
+    }//GEN-LAST:event_homeButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -427,13 +422,15 @@ public class rent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField availableTextField;
+    private javax.swing.JComboBox<String> custComboBox;
+    private javax.swing.JTextField custNameTextField;
+    private javax.swing.JTextField custPhoneTextField;
+    private javax.swing.JComboBox<String> equipComboBox;
+    private javax.swing.JTextField equipNameTextField;
+    private javax.swing.JTextField equipPriceTextField;
+    private javax.swing.JButton homeButton;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -446,12 +443,18 @@ public class rent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField quantityTextField;
+    private javax.swing.JButton rentButton;
+    private com.toedter.calendar.JDateChooser rentStartDate;
+    private com.toedter.calendar.JDateChooser returnRentDate;
     private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
+    public static String cust_name="";
+    public static int cust_phone=0;
+    public static int cust_id=0;
+    public static int equip_id=0;
+    public static String equip_name="";
+    public static double equip_price=0;
+    public static Date rent_start;
+    public static int quantity=0;
 }
